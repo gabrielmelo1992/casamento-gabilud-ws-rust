@@ -1,0 +1,6 @@
+#/bin/bash
+export APP_NAME=CasamentoGabiludWsRust
+export BIND_ADDRESS=localhost:9060
+export MONGO_URL="mongodb://gabrielmelo:64aadb11196abe489827a1bb@192.168.15.102:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true"
+export MONGO_DB=casamento-gabilud
+cargo run --release
