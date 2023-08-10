@@ -46,4 +46,18 @@ impl Mongo {
 
         Self { db }
     }
+
+    // pub async fn get(&self) -> Database {
+    //     self.db.clone()
+    // }
+
+    pub async fn insert_invite(&self, name: String) -> Result<(), Box<dyn std::error::Error>> {
+        let collection = self.db.collection("invite");
+        let result = collection.insert_one(doc! { "name": name }, None).await;
+
+        match result {
+            Ok(_) => Ok(()),
+            Err(e) => Err(Box::new(e)),
+        }
+    }
 }
