@@ -1,9 +1,9 @@
 use std::env;
-
 use mongodb::{
     bson::{
         // oid::ObjectId,
-        doc
+        doc,
+        DateTime as BsonDateTime,
     }, //modify here
     // results::{ InsertOneResult },
     Client, Database,
@@ -17,7 +17,6 @@ pub struct Mongo {
     // col: Collection<User>,
     db: Database,
 }
-
 async fn test_connection (db: &Database) -> bool {
     let ping = db.run_command(doc! {"ping": 1}, None).await;
     match ping {
@@ -53,7 +52,11 @@ impl Mongo {
 
     pub async fn insert_invite(&self, name: String) -> Result<(), Box<dyn std::error::Error>> {
         let collection = self.db.collection("invite");
-        let result = collection.insert_one(doc! { "name": name }, None).await;
+        let document = doc! {
+            "name": name.clone(),
+            "date": BsonDateTime::now()
+        };
+        let result = collection.insert_one(document, None).await;
 
         match result {
             Ok(_) => Ok(()),
